@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Cars - Tu plataforma de autos de lujo</title>
+    <link rel="stylesheet" href="Estilos para el Modal.css">
+    <link href="agencia.jpg" rel="stylesheet">
+</head>
+<body>
+    
+   
+
+    <main>
+        <section class="hero">
+            <h1>Bienvenido a Luxury Cars</h1>
+            <p>Encuentra el auto de lujo de tus sueños con la mejor experiencia de compra online.</p>
+            <a href="#cars" class="cta">Explorar Catálogo</a>
+        </section>
+
+        <section id="about" class="about">
+            <h2>Sobre Nosotros</h2>
+            <p>En Luxury Cars ofrecemos una plataforma eficiente, segura y exclusiva para adquirir autos de lujo. Disfruta de una experiencia premium con nosotros.</p>
+        </section>
+
+        <section id="cars" class="cars">
+            <h2>Catálogo de Autos</h2>
+            <div class="car-grid">
+                <div class="car-item" onclick="showCarDetails('car1.jpg', 'Modelo 1', '$150,000 USD')">
+                    <img src="car1.jpg" alt="Auto de lujo 1">
+                    <h3>Modelo 1</h3>
+                    <p>$150,000 USD</p>
+                    <button>Comprar</button>
+                </div>
+                <div class="car-item" onclick="showCarDetails('car2.jpg', 'Modelo 2', '$200,000 USD')">
+                    <img src="car2.jpg" alt="Auto de lujo 2">
+                    <h3>Modelo 2</h3>
+                    <p>$200,000 USD</p>
+                    <button>Comprar</button>
+                </div>
+                <!-- Agregar más autos aquí -->
+            </div>
+        </section>
+
+        <!-- Modal de detalles del auto -->
+        <div id="carModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <img id="carImage" src="" alt="Imagen del auto">
+                <h3 id="carTitle"></h3>
+                <p id="carPrice"></p>
+                <label for="colorSelect">Selecciona el color:</label>
+                <select id="colorSelect">
+                    <option value="Rojo">Rojo</option>
+                    <option value="Negro">Negro</option>
+                    <option value="Blanco">Blanco</option>
+                    <option value="Azul">Azul</option>
+                </select>
+                <form id="paymentForm" onsubmit="processPayment(event)">
+                    <h4>Formulario de Pago</h4>
+                    <label for="cardNumber">Número de tarjeta:</label>
+                    <input type="text" id="cardNumber" required><br>
+
+                    <label for="expirationDate">Fecha de expiración:</label>
+                    <input type="month" id="expirationDate" required><br>
+
+                    <label for="cvv">CVV:</label>
+                    <input type="text" id="cvv" required><br>
+
+                    <label for="buyerName">Nombre del comprador:</label>
+                    <input type="text" id="buyerName" required><br>
+
+                    <button type="submit">Confirmar Compra</button>
+                </form>
+                <div id="thankYouMessage" style="display: none;">
+                    <p>¡Gracias por tu compra! Tu pedido está siendo procesado.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Luxury Cars. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        function showCarDetails(image, title, price) {
+            document.getElementById('carImage').src = image;
+            document.getElementById('carTitle').textContent = title;
+            document.getElementById('carPrice').textContent = price;
+            document.getElementById('carModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('carModal').style.display = 'none';
+        }
+
+        function processPayment(event) {
+            event.preventDefault(); // Prevent form submission
+
+            const cardNumber = document.getElementById('cardNumber').value;
+            const expirationDate = document.getElementById('expirationDate').value;
+            const cvv = document.getElementById('cvv').value;
+            const buyerName = document.getElementById('buyerName').value;
+
+            // Aquí deberías conectar con el backend para procesar el pago
+            // En este ejemplo, solo mostramos un mensaje
+            document.getElementById('paymentForm').style.display = 'none';
+            document.getElementById('thankYouMessage').style.display = 'block';
+
+            // Conectar con el backend para almacenar la compra en MySQL
+            fetch('process_purchase.php', {
+                method: 'POST',
+                body: JSON.stringify({
+                    cardNumber: cardNumber,
+                    expirationDate: expirationDate,
+                    cvv: cvv,
+                    buyerName: buyerName
+                }),
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Compra realizada con éxito');
+                } else {
+                    alert('Error en el proceso de pago');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

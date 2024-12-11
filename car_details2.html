@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Auto</title>
+    <link rel="stylesheet" href="carcss.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">Luxury Cars</div>
+            <ul class="nav-links">
+                <li><a href="#about">Sobre nosotros</a></li>
+                <li><a href="#cars">Catálogo</a></li>
+                <li><a href="login.html">Iniciar sesión</a></li>
+                <li><a href="register.html">Registrarse</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="car-details">
+            <h2>Detalles del Auto</h2>
+            
+            <!-- Imagen del auto ampliada en formato JPG -->
+            <img id="carImage" src="porche 911.jpg" alt="Imagen del auto" width="500">
+            <h3 id="carModel">Modelo</h3>
+            <p id="carPrice">Precio: $</p>
+
+            <!-- Formulario para realizar la compra -->
+            <form id="purchaseForm" onsubmit="processPurchase(event)">
+                <h4>Formulario de Compra</h4>
+                <label for="color">Selecciona el color:</label>
+                <select id="color" required>
+                    <option value="Rojo">Rojo</option>
+                    <option value="Negro">Negro</option>
+                    <option value="Blanco">Blanco</option>
+                    <option value="Azul">Azul</option>
+                </select><br>
+
+                <button type="submit">Comprar</button>
+            </form>
+
+            <!-- Botón para regresar al inicio -->
+            <button onclick="goBackToCatalog()" class="back-button">Volver al Inicio</button>
+
+            <div id="thankYouMessage" style="display: none;">
+                <p>¡Gracias por tu compra! Tu pedido está siendo procesado.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Luxury Cars. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        // Función para obtener el parámetro 'id' de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const carId = urlParams.get('id');
+
+        // Datos simulados de autos (para demostración)
+        const cars = {
+            1: { model: "Modelo 1", price: "$150,000 USD", image: "car1.jpg" },
+            2: { model: "Modelo 2", price: "$200,000 USD", image: "car2.jpg" },
+            // Agrega más autos aquí
+        };
+
+        // Mostrar los detalles del auto según el ID
+        const car = cars[carId];
+        if (car) {
+            document.getElementById('carModel').textContent = car.model;
+            document.getElementById('carPrice').textContent = `Precio: ${car.price}`;
+            document.getElementById('carImage').src = car.image; // Asegúrate que las imágenes sean JPG
+        }
+
+        // Función para procesar la compra
+        function processPurchase(event) {
+            event.preventDefault();
+            // Aquí podrías realizar la lógica de la compra, como enviar datos al servidor
+
+            // Mostrar mensaje de compra exitosa
+            document.getElementById('purchaseForm').style.display = 'none';
+            document.getElementById('thankYouMessage').style.display = 'block';
+        }
+
+        // Función para regresar al inicio (o página principal)
+        function goBackToCatalog() {
+            window.location.href = "Luxury Cars Site.html";  // Redirige a la página principal
+        }
+    </script>
+</body>
+</html>
